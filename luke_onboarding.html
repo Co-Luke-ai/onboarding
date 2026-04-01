@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luke · Onboarding</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #FFFFFF;
+    --surface: #F7F7F8;
+    --surface2: #EFEFEF;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.13);
+    --text: #111113;
+    --muted: #666670;
+    --hint: #AAAAAA;
+    --blue-bg: #EAF2FB;
+    --blue-text: #185FA5;
+    --blue-border: rgba(24,95,165,0.2);
+    --green-bg: #E1F5EE;
+    --green-text: #0F6E56;
+    --green-border: rgba(15,110,86,0.2);
+    --amber-bg: #FEF3E2;
+    --amber-text: #854F0B;
+    --amber-border: rgba(133,79,11,0.2);
+    --success: #0F6E56;
+    --success-bg: #E1F5EE;
+    --progress: #1D9E75;
+    --font: 'DM Sans', system-ui, sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Header */
+  .header {
+    padding: 28px 0 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-img {
+    height: 26px;
+    width: auto;
+    display: block;
+  }
+  .logo-text {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+
+  .logo-sub {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* Progress summary */
+  .progress-summary {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .progress-track {
+    width: 140px;
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--progress);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+
+  .progress-label {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+    white-space: nowrap;
+  }
+
+  .reset-btn {
+    background: none;
+    border: none;
+    font-size: 12px;
+    color: var(--hint);
+    cursor: pointer;
+    font-family: var(--font);
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color .15s;
+  }
+  .reset-btn:hover { color: var(--muted); }
+
+  /* Tabs */
+  .tabs-row {
+    display: flex;
+    gap: 0;
+    border-bottom: 0.5px solid var(--border);
+    margin: 20px 0 0;
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    padding: 12px 20px;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -0.5px;
+    transition: color .15s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--text);
+    border-bottom: 2px solid var(--green-text);
+  }
+
+  /* Scroll area */
+  .scroll-area {
+    overflow-y: auto;
+    padding: 24px 0 40px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface2) transparent;
+  }
+  .scroll-area::-webkit-scrollbar { width: 4px; }
+  .scroll-area::-webkit-scrollbar-track { background: transparent; }
+  .scroll-area::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
+
+  /* Tip box */
+  .tip-box {
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 24px;
+  }
+  .tip-box strong { color: var(--text); font-weight: 500; }
+
+  /* Phase */
+  .phase { margin-bottom: 24px; }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .phase-pill {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 11px;
+    border-radius: 20px;
+    letter-spacing: 0.01em;
+  }
+  .p-blue { background: var(--blue-bg); color: var(--blue-text); border: 0.5px solid var(--blue-border); }
+  .p-green { background: var(--green-bg); color: var(--green-text); border: 0.5px solid var(--green-border); }
+  .p-amber { background: var(--amber-bg); color: var(--amber-text); border: 0.5px solid var(--amber-border); }
+
+  .phase-time { font-size: 12px; color: var(--hint); font-family: var(--mono); }
+
+  /* Step */
+  .step {
+    display: flex;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 0.5px solid var(--border);
+    background: var(--surface);
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: border-color .15s, opacity .2s, background .15s;
+    user-select: none;
+  }
+  .step:hover { border-color: var(--border2); background: var(--surface2); }
+  .step.done { opacity: 0.38; }
+
+  .step.stretch {
+    border-left: 2px solid var(--amber-border);
+  }
+
+  .check {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    border: 1.5px solid var(--border2);
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s, border-color .15s;
+  }
+  .check.on {
+    background: var(--success-bg);
+    border-color: var(--success);
+  }
+
+  .step-body { flex: 1; min-width: 0; }
+
+  .step-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .step-note {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .step-time {
+    font-size: 11px;
+    color: var(--hint);
+    font-family: var(--mono);
+    flex-shrink: 0;
+    padding-top: 3px;
+  }
+
+  .sbadge {
+    font-size: 10px;
+    font-weight: 500;
+    background: var(--amber-bg);
+    color: var(--amber-text);
+    border: 0.5px solid var(--amber-border);
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+
+  /* Client guide */
+  .c-sep {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--hint);
+    margin: 24px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .c-sep:first-of-type { margin-top: 0; }
+
+  .c-step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 18px;
+    align-items: flex-start;
+  }
+
+  .c-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 0.5px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    flex-shrink: 0;
+    font-family: var(--mono);
+  }
+  .c-num.amber {
+    background: var(--amber-bg);
+    border-color: var(--amber-border);
+    color: var(--amber-text);
+  }
+
+  .c-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .c-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* Tab panels */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* Checkmark SVG */
+  .check-svg { display: none; }
+  .check.on .check-svg { display: block; }
+
+  /* WhatsApp tab */
+  .wa-section { margin-bottom: 28px; }
+  .wa-sep {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--hint);
+    margin: 24px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .wa-sep:first-of-type { margin-top: 0; }
+  .concepts-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 20px; }
+  .concepts-table th { text-align: left; font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--hint); padding: 0 12px 8px 0; }
+  .concepts-table td { padding: 8px 12px 8px 0; vertical-align: top; color: var(--muted); border-top: 0.5px solid var(--border); line-height: 1.5; }
+  .concepts-table td:first-child { color: var(--text); font-weight: 500; white-space: nowrap; }
+  .mono-tag { font-family: var(--mono); font-size: 11px; background: var(--surface2); color: var(--muted); padding: 2px 6px; border-radius: 4px; }
+  .wa-step {
+    display: flex; gap: 12px; padding: 12px 14px;
+    border-radius: 10px; border: 0.5px solid var(--border);
+    background: var(--surface); margin-bottom: 6px;
+    cursor: pointer; transition: border-color .15s, opacity .2s, background .15s;
+    user-select: none;
+  }
+  .wa-step:hover { border-color: var(--border2); background: var(--surface2); }
+  .wa-step.done { opacity: 0.38; }
+  .wa-step-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--surface2); border: 0.5px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: var(--muted);
+    font-family: var(--mono); flex-shrink: 0; margin-top: 1px;
+    transition: background .15s, color .15s;
+  }
+  .wa-step.done .wa-step-num { background: var(--success-bg); color: var(--success); border-color: var(--green-border); }
+  .wa-step-body { flex: 1; }
+  .wa-step-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .wa-step-note { font-size: 12px; color: var(--muted); line-height: 1.55; }
+  .wa-step-time { font-size: 11px; color: var(--hint); font-family: var(--mono); flex-shrink: 0; padding-top: 3px; }
+  .data-fields { background: var(--surface); border: 0.5px solid var(--border2); border-radius: 10px; padding: 14px 16px; margin: 16px 0 20px; }
+  .data-fields-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--hint); margin-bottom: 12px; }
+  .data-field { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .data-field:last-child { margin-bottom: 0; }
+  .data-field label { font-size: 12px; font-weight: 500; color: var(--muted); width: 170px; flex-shrink: 0; }
+  .data-field input {
+    flex: 1; background: var(--bg); border: 0.5px solid var(--border2);
+    border-radius: 6px; padding: 6px 10px; font-size: 12px;
+    font-family: var(--mono); color: var(--text); outline: none;
+    transition: border-color .15s;
+  }
+  .data-field input:focus { border-color: var(--green-text); }
+  .data-field input::placeholder { color: var(--hint); }
+  .warning-box {
+    background: var(--amber-bg); border: 0.5px solid var(--amber-border);
+    border-radius: 8px; padding: 10px 14px; font-size: 12px;
+    color: var(--amber-text); line-height: 1.55; margin: 10px 0;
+  }
+  .warning-box strong { font-weight: 600; }
+  .code-block {
+    background: var(--surface2); border-radius: 8px; padding: 10px 14px;
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+    line-height: 1.7; margin: 8px 0; overflow-x: auto; white-space: pre;
+  }
+  .wa-progress { font-size: 12px; color: var(--muted); margin-bottom: 16px; font-family: var(--mono); }
+  .p-green2 { background: var(--green-bg); color: var(--green-text); border: 0.5px solid var(--green-border); }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <div class="header">
+    <div class="logo">
+      <img class="logo-img" src="data:image/png;base64,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" alt="Luke" style="width:32px;height:32px;">
+      <div>
+        <span class="logo-text">Luke</span><span class="logo-sub"> · Onboarding</span>
+      </div>
+    </div>
+    <div class="progress-summary">
+      <div class="progress-track"><div class="progress-fill" id="prog"></div></div>
+      <span class="progress-label" id="ctr">0 / 15</span>
+      <button class="reset-btn" onclick="resetAll()">reiniciar</button>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-rows: auto 1fr; min-height:0">
+    <div class="tabs-row">
+      <button class="tab-btn active" onclick="showTab('f',this)">Facilitador</button>
+      <button class="tab-btn" onclick="showTab('c',this)">Guía del cliente</button>
+      <button class="tab-btn" onclick="showTab('w',this)">WhatsApp Setup</button>
+    </div>
+
+    <div class="scroll-area">
+
+      <!-- FACILITADOR -->
+      <div id="panel-f" class="panel active">
+        <div class="tip-box">
+          <strong>Objetivo de la sesión:</strong> El cliente sale con tenant activo, flujo + colección publicados, y el agente de intake corriendo en WhatsApp. System prompt, prueba final e integración son stretch si el tiempo lo permite.
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-pill p-blue">Fase 1 · Workspace</span>
+            <span class="phase-time">~32 min</span>
+          </div>
+
+          <div class="step" onclick="tog(this,0)">
+            <div class="check" id="c0"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Crear el tenant</div>
+              <div class="step-note">Ir a builder.lukeworkflows.com/register. Confirmar email y entrar. Verifica que el tenant cargue correctamente antes de seguir.</div>
+            </div>
+            <div class="step-time">5 min</div>
+          </div>
+
+          <div class="step" onclick="tog(this,1)">
+            <div class="check" id="c1"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Armar el flujo de onboarding</div>
+              <div class="step-note">Builder → Nuevo workflow. Estados básicos: Nuevo → En progreso → Cerrado. Explica el concepto de transiciones y para qué sirve cada estado.</div>
+            </div>
+            <div class="step-time">7 min</div>
+          </div>
+
+          <div class="step" onclick="tog(this,2)">
+            <div class="check" id="c2"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Iterar y mejorar el flujo</div>
+              <div class="step-note">Pregunta: "¿Qué info necesitan capturar?" Que agreguen al menos un campo de formulario. Muéstrales cómo editar un estado ya creado.</div>
+            </div>
+            <div class="step-time">4 min</div>
+          </div>
+
+          <div class="step" onclick="tog(this,3)">
+            <div class="check" id="c3"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Publicar el flujo</div>
+              <div class="step-note">Botón Publicar en el Builder. Que ellos hagan clic. Verificar que el workspace aparezca en el menú lateral.</div>
+            </div>
+            <div class="step-time">2 min</div>
+          </div>
+
+          <div class="step" onclick="tog(this,4)">
+            <div class="check" id="c4"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Crear una colección</div>
+              <div class="step-note">Colecciones → Nueva. Que definan sus propios campos (ej. clientes, equipos, técnicos). Publicar y vincular la colección al flujo creado.</div>
+            </div>
+            <div class="step-time">5 min</div>
+          </div>
+
+          <div class="step" onclick="tog(this,5)">
+            <div class="check" id="c5"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Crear tareas en el workspace</div>
+              <div class="step-note">2–3 tareas manuales. El objetivo es que vean el flujo vivo y noten cómo la colección se relaciona con las tareas antes de seguir construyendo.</div>
+            </div>
+            <div class="step-time">4 min</div>
+          </div>
+
+          <div class="step" onclick="tog(this,6)">
+            <div class="check" id="c6"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Re-iterar el flujo y publicar v2</div>
+              <div class="step-note">Vuelven al Builder. Agregan algo que notaron que faltaba. Publican nueva versión. Refuerza el loop: build → publish → test. Este es el hábito clave.</div>
+            </div>
+            <div class="step-time">5 min</div>
+          </div>
+
+          <div class="step" onclick="tog(this,7)">
+            <div class="check" id="c7"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Permisos y usuarios</div>
+              <div class="step-note">Configuración → Usuarios → Invitar. Asignar roles al workflow. Que inviten a al menos una persona del equipo para que lo vean activo.</div>
+            </div>
+            <div class="step-time">3 min</div>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-pill p-green">Fase 2 · Agente de intake</span>
+            <span class="phase-time">~19 min</span>
+          </div>
+
+          <div class="step" onclick="tog(this,8)">
+            <div class="check" id="c8"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Crear el agente + canales</div>
+              <div class="step-note">Agentes → Nuevo. Conectar canal WhatsApp (+1 754-317-3543) y agregar Telegram como sandbox. Verificar que los webhooks estén activos.</div>
+            </div>
+            <div class="step-time">8 min</div>
+          </div>
+
+          <div class="step" onclick="tog(this,9)">
+            <div class="check" id="c9"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Probar el agente intake — primera vez</div>
+              <div class="step-note">Que ellos escriban al número desde su celular. ¿Responde el agente? ¿Se crea la tarea automáticamente en el workspace? Este es el "wow moment".</div>
+            </div>
+            <div class="step-time">4 min</div>
+          </div>
+
+          <div class="step" onclick="tog(this,10)">
+            <div class="check" id="c10"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Agregar base de conocimiento</div>
+              <div class="step-note">Subir al menos un documento (FAQ, lista de servicios, precios). Que sean ellos quienes lo suban para crear el hábito desde el día 1.</div>
+            </div>
+            <div class="step-time">4 min</div>
+          </div>
+
+          <div class="step" onclick="tog(this,11)">
+            <div class="check" id="c11"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Probar intake con knowledge base</div>
+              <div class="step-note">Que pregunten algo específico que esté en el documento. El agente debe responder con esa info. Comparar la respuesta vs la prueba anterior — sin KB vs con KB.</div>
+            </div>
+            <div class="step-time">3 min</div>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-pill p-amber">Fase 3 · Stretch</span>
+            <span class="phase-time">si el tiempo lo permite</span>
+          </div>
+
+          <div class="step stretch" onclick="tog(this,12)">
+            <div class="check" id="c12"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Agregar system prompt <span class="sbadge">stretch</span></div>
+              <div class="step-note">Nombre, tono y reglas del agente. Ej: "Eres Carlos, asistente de [empresa]. Responde siempre en español y de forma breve."</div>
+            </div>
+            <div class="step-time">4 min</div>
+          </div>
+
+          <div class="step stretch" onclick="tog(this,13)">
+            <div class="check" id="c13"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Prueba final del intake <span class="sbadge">stretch</span></div>
+              <div class="step-note">Conversación completa: responde con su nombre, usa el KB y crea la tarea. Cierra con: "esto es lo que van a usar desde mañana."</div>
+            </div>
+            <div class="step-time">4 min</div>
+          </div>
+
+          <div class="step stretch" onclick="tog(this,14)">
+            <div class="check" id="c14"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="step-body">
+              <div class="step-title">Crear una integración <span class="sbadge">stretch</span></div>
+              <div class="step-note">Integraciones → Nueva. Conectar con un sistema externo (CRM, calendario, hoja de cálculo). Mostrar cómo Luke puede alimentar automáticamente otras herramientas.</div>
+            </div>
+            <div class="step-time">5 min</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GUÍA CLIENTE -->
+      <div id="panel-c" class="panel">
+        <div class="tip-box">
+          <strong>Bienvenido a Luke.</strong> En la próxima hora vas a construir tu propio agente de intake desde cero — sin necesidad de saber programar. Al final, tu número de WhatsApp va a estar respondiendo clientes y creando tareas automáticamente.
+        </div>
+
+        <div class="c-sep">Parte 1 · Tu workspace</div>
+
+        <div class="c-step"><div class="c-num">1</div><div><div class="c-title">Crea tu cuenta</div><div class="c-desc">Entra a builder.lukeworkflows.com/register. Confirma el correo y accede a tu tenant.</div></div></div>
+        <div class="c-step"><div class="c-num">2</div><div><div class="c-title">Construye tu primer flujo</div><div class="c-desc">Ve al Builder → Nuevo workflow. Agrega los estados de tu proceso: Nuevo → En progreso → Cerrado.</div></div></div>
+        <div class="c-step"><div class="c-num">3</div><div><div class="c-title">Agrega campos y mejora el flujo</div><div class="c-desc">¿Qué información necesitas capturar de cada servicio? Nombre del cliente, tipo de trabajo, dirección, etc.</div></div></div>
+        <div class="c-step"><div class="c-num">4</div><div><div class="c-title">Publica el flujo</div><div class="c-desc">Clic en Publicar. El workflow ya está activo en tu plataforma.</div></div></div>
+        <div class="c-step"><div class="c-num">5</div><div><div class="c-title">Crea una colección</div><div class="c-desc">Ve a Colecciones → Nueva. Define los datos que necesitas organizar: clientes, técnicos, equipos. Publícala y vincúlala al flujo.</div></div></div>
+        <div class="c-step"><div class="c-num">6</div><div><div class="c-title">Crea tareas de prueba</div><div class="c-desc">Crea 2–3 tareas manualmente en el workspace. Observa cómo el flujo y la colección trabajan juntos.</div></div></div>
+        <div class="c-step"><div class="c-num">7</div><div><div class="c-title">Mejora y publica v2</div><div class="c-desc">Vuelve al Builder, agrega algo que notaste que faltaba, y publica de nuevo. Este loop — construir, publicar, probar — es el corazón de Luke.</div></div></div>
+        <div class="c-step"><div class="c-num">8</div><div><div class="c-title">Invita a tu equipo</div><div class="c-desc">Configuración → Usuarios → Invitar. Asigna roles al workflow. Tus técnicos ya pueden operar desde aquí.</div></div></div>
+
+        <div class="c-sep">Parte 2 · Tu agente de WhatsApp</div>
+
+        <div class="c-step"><div class="c-num">9</div><div><div class="c-title">Crea el agente y conecta los canales</div><div class="c-desc">Ve a Agentes → Nuevo. Conecta tu canal de WhatsApp. Agrega Telegram como canal de prueba.</div></div></div>
+        <div class="c-step"><div class="c-num">10</div><div><div class="c-title">Prueba el intake por primera vez</div><div class="c-desc">Escribe al número desde tu celular. ¿Responde el agente? ¿Se creó la tarea automáticamente en el workspace?</div></div></div>
+        <div class="c-step"><div class="c-num">11</div><div><div class="c-title">Sube tu base de conocimiento</div><div class="c-desc">Agrega un documento con tus servicios, preguntas frecuentes o precios. El agente lo va a usar para responder.</div></div></div>
+        <div class="c-step"><div class="c-num">12</div><div><div class="c-title">Prueba con el documento</div><div class="c-desc">Pregunta algo específico que esté en el documento. Compara esta respuesta con la prueba anterior — la diferencia es el knowledge base en acción.</div></div></div>
+
+        <div class="c-sep">Parte 3 · Si el tiempo lo permite</div>
+
+        <div class="c-step"><div class="c-num amber">13</div><div><div class="c-title">Escribe el system prompt <span class="sbadge">stretch</span></div><div class="c-desc">Define el nombre, tono y reglas de tu agente. Ej: "Eres Carlos, asistente de ABC HVAC. Responde en español, de forma amable y breve."</div></div></div>
+        <div class="c-step"><div class="c-num amber">14</div><div><div class="c-title">Prueba final</div><div class="c-desc">Una conversación completa: el agente responde con su nombre, usa tu knowledge base y crea una tarea. Luke está listo para tu negocio.</div></div></div>
+        <div class="c-step"><div class="c-num amber">15</div><div><div class="c-title">Crea una integración <span class="sbadge">stretch</span></div><div class="c-desc">Conecta Luke con un sistema externo: CRM, calendario, hoja de cálculo. Así Luke alimenta automáticamente tus otras herramientas.</div></div></div>
+      </div>
+
+      <!-- WHATSAPP SETUP -->
+      <div id="panel-w" class="panel">
+        <div class="tip-box">
+          <strong>Flujo manual via Meta Cloud API.</strong> No requiere Tech Provider ni Embedded Signup. Fase 1 se hace con el cliente presente (15–30 min). Fase 2 la hacemos nosotros solos después (5–10 min).
+        </div>
+
+        <div class="wa-sep">Conceptos clave — IDs que necesitamos</div>
+        <table class="concepts-table">
+          <thead><tr><th>Identificador</th><th>Qué es</th><th>Para qué</th></tr></thead>
+          <tbody>
+            <tr><td>Business ID</td><td>ID del Meta Business Account del cliente</td><td>Establecer relación Partner</td></tr>
+            <tr><td>WABA ID</td><td>ID de la WhatsApp Business Account dentro de su Meta Business</td><td>Suscribir al webhook, gestionar templates</td></tr>
+            <tr><td>Phone Number ID</td><td>ID interno de Meta asignado al número registrado</td><td>Ruteo multi-tenant — identifica al cliente en cada mensaje entrante</td></tr>
+          </tbody>
+        </table>
+
+        <div class="warning-box"><strong>Importante:</strong> El Phone Number ID NO es el número de teléfono. Es un identificador numérico interno de Meta (ej: <span class="mono-tag">123456789012345</span>). Ambos datos son necesarios.</div>
+
+        <div class="wa-sep" style="margin-top:24px">Fase 1 · Con el cliente <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--muted)">&nbsp;15–30 min · cliente presente</span></div>
+
+        <div class="wa-step" onclick="watog(this,0)">
+          <div class="wa-step-num" id="w0">1</div>
+          <div class="wa-step-body">
+            <div class="wa-step-title">Crear Meta Business Account</div>
+            <div class="wa-step-note">Si ya tiene uno, saltar al paso 2. Si no: business.facebook.com → Create Account → nombre del negocio, administrador, email corporativo → confirmar email.<br><strong>Anotar:</strong> Business ID del cliente (Business Settings → Business Info).</div>
+          </div>
+          <div class="wa-step-time">3 min</div>
+        </div>
+
+        <div class="wa-step" onclick="watog(this,1)">
+          <div class="wa-step-num" id="w1">2</div>
+          <div class="wa-step-body">
+            <div class="wa-step-title">Iniciar verificación de negocio</div>
+            <div class="wa-step-note">No bloquea el onboarding. Sin verificar: 250 conversaciones/día (suficiente para empezar). Business Settings → Security Center → Start Verification → subir documentos (Chile: RUT + escritura; USA: EIN letter). Enviar y continuar sin esperar.</div>
+          </div>
+          <div class="wa-step-time">5 min</div>
+        </div>
+
+        <div class="wa-step" onclick="watog(this,2)">
+          <div class="wa-step-num" id="w2">3</div>
+          <div class="wa-step-body">
+            <div class="wa-step-title">Crear el WABA (WhatsApp Business Account)</div>
+            <div class="wa-step-note">Business Manager → WhatsApp Manager → Get Started → completar nombre, zona horaria, moneda → aceptar términos. Si no aparece WhatsApp Manager: Business Settings → Accounts → WhatsApp Accounts → Add.<br><strong>Anotar:</strong> WABA ID (WhatsApp Manager → Settings).</div>
+          </div>
+          <div class="wa-step-time">5 min</div>
+        </div>
+
+        <div class="wa-step" onclick="watog(this,3)">
+          <div class="wa-step-num" id="w3">4</div>
+          <div class="wa-step-body">
+            <div class="wa-step-title">Registrar el número de teléfono</div>
+            <div class="wa-step-note">El número NO debe estar en WhatsApp personal — desvincularlo antes si es necesario. WhatsApp Manager → Phone Numbers → Add Phone Number → completar perfil (nombre para mostrar, categoría) → ingresar número → verificar con OTP (llega al celular del cliente).<br><strong>Anotar:</strong> Phone Number ID + número completo con código de país.</div>
+          </div>
+          <div class="wa-step-time">5 min</div>
+        </div>
+
+        <div class="wa-step" onclick="watog(this,4)">
+          <div class="wa-step-num" id="w4">5</div>
+          <div class="wa-step-body">
+            <div class="wa-step-title">Agregar a Luke como Partner</div>
+            <div class="wa-step-note">El cliente opera, nosotros le dictamos nuestro Business ID. Meta Business Suite del cliente → Settings → Accounts → WhatsApp accounts → click en su WABA → "Assign partner" → ingresar nuestro Business ID → activar todos los toggles de permisos → Save.<br>Alternativa: Business Settings → Users → Partners → Add → ingresar Business ID → asignar permisos sobre el WABA.</div>
+          </div>
+          <div class="wa-step-time">5 min</div>
+        </div>
+
+        <div class="data-fields">
+          <div class="data-fields-title">Datos recopilados en la reunión</div>
+          <div class="data-field"><label>Business ID del cliente</label><input type="text" placeholder="999888777666555" id="f-business-id"></div>
+          <div class="data-field"><label>WABA ID</label><input type="text" placeholder="987654321098765" id="f-waba-id"></div>
+          <div class="data-field"><label>Phone Number ID</label><input type="text" placeholder="123456789012345" id="f-phone-num-id"></div>
+          <div class="data-field"><label>Número de teléfono</label><input type="text" placeholder="+56912345678" id="f-phone"></div>
+          <div class="data-field"><label>Nombre para mostrar</label><input type="text" placeholder="Mi Empresa WA" id="f-display-name"></div>
+        </div>
+
+        <div class="wa-sep">Fase 2 · Nosotros solos <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--muted)">&nbsp;5–10 min · post-reunión</span></div>
+
+        <div class="wa-step" onclick="watog(this,5)">
+          <div class="wa-step-num" id="w5">6</div>
+          <div class="wa-step-body">
+            <div class="wa-step-title">Asignar el WABA del cliente a nuestro System User</div>
+            <div class="wa-step-note">Business Manager nuestro → Business Settings → Users → System Users → seleccionar <span class="mono-tag">luke-api</span> → Assign Assets → WhatsApp Accounts → seleccionar el WABA del cliente → Full Control → Save.</div>
+          </div>
+          <div class="wa-step-time">2 min</div>
+        </div>
+
+        <div class="wa-step" onclick="watog(this,6)">
+          <div class="wa-step-num" id="w6">7</div>
+          <div class="wa-step-body">
+            <div class="wa-step-title">Suscribir el WABA al webhook</div>
+            <div class="wa-step-note">Sin este paso los mensajes NO llegan a nuestro sistema.
+            <div class="code-block">POST https://graph.facebook.com/v22.0/{waba_id}/subscribed_apps
+Authorization: Bearer {system_user_token}</div>
+            Verificar siempre con GET después (puede fallar silenciosamente):
+            <div class="code-block">GET https://graph.facebook.com/v22.0/{waba_id}/subscribed_apps</div>
+            Nuestra app debe aparecer en la respuesta. Si no, reintentar.</div>
+          </div>
+          <div class="wa-step-time">3 min</div>
+        </div>
+
+        <div class="wa-step" onclick="watog(this,7)">
+          <div class="wa-step-num" id="w7">8</div>
+          <div class="wa-step-body">
+            <div class="wa-step-title">Registrar configuración en la DB</div>
+            <div class="wa-step-note">Guardar la relación tenant ↔ Meta: <span class="mono-tag">tenant_id</span>, <span class="mono-tag">waba_id</span>, <span class="mono-tag">phone_number_id</span>, <span class="mono-tag">display_phone_number</span>, <span class="mono-tag">display_name</span>, <span class="mono-tag">onboarding_method: manual_partner</span>, <span class="mono-tag">status: active</span>. No se almacena token por cliente — el ruteo se hace por <span class="mono-tag">phone_number_id</span>.</div>
+          </div>
+          <div class="wa-step-time">2 min</div>
+        </div>
+
+        <div class="wa-step" onclick="watog(this,8)">
+          <div class="wa-step-num" id="w8">9</div>
+          <div class="wa-step-body">
+            <div class="wa-step-title">Verificación con mensaje de prueba</div>
+            <div class="wa-step-note">1) Mensaje entrante: enviar WhatsApp al número del cliente → verificar que llega al webhook y que el sistema identifica correctamente al tenant por <span class="mono-tag">phone_number_id</span>.<br>2) Mensaje saliente: responder vía API → verificar que llega al teléfono.<br>3) Status updates: confirmar que eventos <span class="mono-tag">delivered</span> y <span class="mono-tag">read</span> llegan al webhook.</div>
+          </div>
+          <div class="wa-step-time">5 min</div>
+        </div>
+
+        <div class="warning-box" style="margin-top:16px"><strong>Nota:</strong> No generamos un token nuevo por cliente. Nuestro System User token tiene alcance sobre todos los WABAs asignados. La diferenciación entre clientes se hace por <span class="mono-tag">phone_number_id</span> en cada mensaje entrante.</div>
+
+        <div class="wa-sep" style="margin-top:32px">Telegram Setup <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--muted)">&nbsp;sandbox · 2 pasos</span></div>
+
+        <div class="tip-box" style="margin-bottom:16px"><strong>Telegram se usa como canal sandbox</strong> para probar el agente durante el onboarding sin consumir el cupo de WhatsApp.</div>
+
+        <div class="wa-step" onclick="watog(this,9)">
+          <div class="wa-step-num" id="w9">1</div>
+          <div class="wa-step-body">
+            <div class="wa-step-title">Crear el bot en Telegram</div>
+            <div class="wa-step-note">Abrir Telegram → buscar <span class="mono-tag">@BotFather</span> → enviar <span class="mono-tag">/newbot</span> → seguir instrucciones (nombre y username del bot) → BotFather entrega el token del bot.</div>
+          </div>
+          <div class="wa-step-time">2 min</div>
+        </div>
+
+        <div class="wa-step" onclick="watog(this,10)">
+          <div class="wa-step-num" id="w10">2</div>
+          <div class="wa-step-body">
+            <div class="wa-step-title">Conectar en Luke</div>
+            <div class="wa-step-note">En Luke: Channels → Add Provider → Telegram → pegar el token entregado por BotFather → guardar. El canal queda activo inmediatamente.</div>
+          </div>
+          <div class="wa-step-time">1 min</div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const N = 15;
+const done = new Array(N).fill(false);
+const waDone = new Array(11).fill(false);
+
+function tog(el, i) {
+  done[i] = !done[i];
+  el.classList.toggle('done', done[i]);
+  document.getElementById('c' + i).classList.toggle('on', done[i]);
+  updateCounter();
+}
+
+function watog(el, i) {
+  waDone[i] = !waDone[i];
+  el.classList.toggle('done', waDone[i]);
+  const num = document.getElementById('w' + i);
+  if (waDone[i]) {
+    num.style.background = 'var(--success-bg)';
+    num.style.color = 'var(--success)';
+    num.style.borderColor = 'var(--green-border)';
+    num.innerHTML = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  } else {
+    num.style.background = '';
+    num.style.color = '';
+    num.style.borderColor = '';
+    num.innerHTML = i + 1;
+  }
+}
+
+function updateCounter() {
+  const n = done.filter(Boolean).length;
+  document.getElementById('ctr').textContent = n + ' / ' + N;
+  document.getElementById('prog').style.width = (n / N * 100) + '%';
+}
+
+function resetAll() {
+  done.fill(false);
+  document.querySelectorAll('.step').forEach(el => el.classList.remove('done'));
+  document.querySelectorAll('.check').forEach(el => el.classList.remove('on'));
+  waDone.fill(false);
+  document.querySelectorAll('.wa-step').forEach(el => el.classList.remove('done'));
+  for (let i = 0; i < 11; i++) {
+    const num = document.getElementById('w' + i);
+    if (num) { num.style.background=''; num.style.color=''; num.style.borderColor=''; num.innerHTML = i+1; }
+  }
+  updateCounter();
+}
+
+function showTab(t, btn) {
+  document.getElementById('panel-f').classList.toggle('active', t === 'f');
+  document.getElementById('panel-c').classList.toggle('active', t === 'c');
+  document.getElementById('panel-w').classList.toggle('active', t === 'w');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
