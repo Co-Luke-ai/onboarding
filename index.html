@@ -418,7 +418,9 @@
     .panel { display: block !important; }
     .panel#panel-c, .panel#panel-w { display: none !important; }
     .panel#panel-fb { display: block !important; }
-    .fb-textarea { border: 0.5px solid #ddd !important; min-height: 80px !important; }
+    .fb-textarea { border: 0.5px solid #ddd !important; min-height: 80px !important; height: auto !important; overflow: visible !important; }
+    .panel#panel-fb .fb-block { break-inside: avoid; page-break-inside: avoid; }
+    textarea { overflow: visible !important; height: auto !important; }
     #print-header { display: flex !important; }
     .step.done { opacity: 0.35 !important; }
     .step { break-inside: avoid; page-break-inside: avoid; }
@@ -446,14 +448,15 @@
     letter-spacing: .07em; color: var(--hint); margin-bottom: 8px; display: block;
   }
   .fb-textarea {
-    width: 100%; min-height: 110px; resize: vertical;
+    width: 100%; min-height: 110px;
     background: var(--surface); border: 0.5px solid var(--border2);
     border-radius: 10px; padding: 12px 14px; font-size: 13px;
     font-family: var(--font); color: var(--text); outline: none;
     line-height: 1.6; transition: border-color .15s;
+    white-space: pre-wrap; word-break: break-word; cursor: text;
   }
   .fb-textarea:focus { border-color: var(--green-text); }
-  .fb-textarea::placeholder { color: var(--hint); }
+  .fb-textarea:empty::before { content: attr(data-placeholder); color: var(--hint); pointer-events: none; }
   .fb-summary {
     background: var(--surface); border: 0.5px solid var(--border2);
     border-radius: 10px; padding: 14px 16px; margin-bottom: 24px;
@@ -861,22 +864,22 @@ Authorization: Bearer {system_user_token}</div>
 
         <div class="fb-block">
           <label class="fb-label">¿Qué salió bien?</label>
-          <textarea class="fb-textarea" id="fb-bien" placeholder="Ej: El cliente llegó preparado, la conexión de WhatsApp fue fluida, buena disposición del equipo…"></textarea>
+          <div class="fb-textarea" id="fb-bien" contenteditable="true" data-placeholder="Ej: El cliente llegó preparado, la conexión de WhatsApp fue fluida, buena disposición del equipo…"></div>
         </div>
 
         <div class="fb-block">
           <label class="fb-label">¿Qué mejorar para la próxima?</label>
-          <textarea class="fb-textarea" id="fb-mejorar" placeholder="Ej: Preparar el número de WhatsApp antes de la sesión, dedicar más tiempo a la colección…"></textarea>
+          <div class="fb-textarea" id="fb-mejorar" contenteditable="true" data-placeholder="Ej: Preparar el número de WhatsApp antes de la sesión, dedicar más tiempo a la colección…"></div>
         </div>
 
         <div class="fb-block">
           <label class="fb-label">Próximos pasos acordados con el cliente</label>
-          <textarea class="fb-textarea" id="fb-next" placeholder="Ej: Cliente va a subir base de conocimiento antes del viernes, agendar sesión de seguimiento en 2 semanas…"></textarea>
+          <div class="fb-textarea" id="fb-next" contenteditable="true" data-placeholder="Ej: Cliente va a subir base de conocimiento antes del viernes, agendar sesión de seguimiento en 2 semanas…"></div>
         </div>
 
         <div class="fb-block">
           <label class="fb-label">Notas adicionales</label>
-          <textarea class="fb-textarea" id="fb-notas" placeholder="Cualquier otra observación…" style="min-height:80px;"></textarea>
+          <div class="fb-textarea" id="fb-notas" contenteditable="true" data-placeholder="Cualquier otra observación…" style="min-height:80px;"></div>
         </div>
       </div>
 
