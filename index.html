@@ -417,6 +417,8 @@
     .scroll-area { overflow: visible !important; padding: 0 !important; }
     .panel { display: block !important; }
     .panel#panel-c, .panel#panel-w { display: none !important; }
+    .panel#panel-fb { display: block !important; }
+    .fb-textarea { border: 0.5px solid #ddd !important; min-height: 80px !important; }
     #print-header { display: flex !important; }
     .step.done { opacity: 0.35 !important; }
     .step { break-inside: avoid; page-break-inside: avoid; }
@@ -436,6 +438,32 @@
     border-bottom: 1px solid #eee;
   }
   #print-date { font-size: 12px; color: #888; font-weight: 400; }
+
+  /* Feedback tab */
+  .fb-block { margin-bottom: 20px; }
+  .fb-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--hint); margin-bottom: 8px; display: block;
+  }
+  .fb-textarea {
+    width: 100%; min-height: 110px; resize: vertical;
+    background: var(--surface); border: 0.5px solid var(--border2);
+    border-radius: 10px; padding: 12px 14px; font-size: 13px;
+    font-family: var(--font); color: var(--text); outline: none;
+    line-height: 1.6; transition: border-color .15s;
+  }
+  .fb-textarea:focus { border-color: var(--green-text); }
+  .fb-textarea::placeholder { color: var(--hint); }
+  .fb-summary {
+    background: var(--surface); border: 0.5px solid var(--border2);
+    border-radius: 10px; padding: 14px 16px; margin-bottom: 24px;
+    display: flex; gap: 24px; flex-wrap: wrap;
+  }
+  .fb-stat { text-align: center; }
+  .fb-stat-num { font-size: 28px; font-weight: 600; color: var(--text); line-height: 1; }
+  .fb-stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .fb-stat-num.green { color: var(--success); }
+  .fb-stat-num.amber { color: var(--amber-text); }
 </style>
 </head>
 <body>
@@ -462,6 +490,7 @@
       <button class="tab-btn active" onclick="showTab('f',this)">Facilitador</button>
       <button class="tab-btn" onclick="showTab('c',this)">Guía del cliente</button>
       <button class="tab-btn" onclick="showTab('w',this)">WhatsApp Setup</button>
+      <button class="tab-btn" onclick="showTab('fb',this)">Feedback</button>
     </div>
 
     <div class="scroll-area">
@@ -809,6 +838,48 @@ Authorization: Bearer {system_user_token}</div>
 
       </div>
 
+      <!-- FEEDBACK -->
+      <div id="panel-fb" class="panel">
+        <div class="fb-summary" id="fb-summary">
+          <div class="fb-stat">
+            <div class="fb-stat-num green" id="fb-done">0</div>
+            <div class="fb-stat-label">pasos completados</div>
+          </div>
+          <div class="fb-stat">
+            <div class="fb-stat-num amber" id="fb-pending">15</div>
+            <div class="fb-stat-label">pendientes</div>
+          </div>
+          <div class="fb-stat">
+            <div class="fb-stat-num" id="fb-pct">0%</div>
+            <div class="fb-stat-label">completado</div>
+          </div>
+          <div class="fb-stat" style="text-align:left;flex:1;min-width:140px;">
+            <div style="font-size:12px;font-weight:500;color:var(--muted);margin-bottom:6px;">Pasos pendientes</div>
+            <div id="fb-pending-list" style="font-size:12px;color:var(--muted);line-height:1.7;">—</div>
+          </div>
+        </div>
+
+        <div class="fb-block">
+          <label class="fb-label">¿Qué salió bien?</label>
+          <textarea class="fb-textarea" id="fb-bien" placeholder="Ej: El cliente llegó preparado, la conexión de WhatsApp fue fluida, buena disposición del equipo…"></textarea>
+        </div>
+
+        <div class="fb-block">
+          <label class="fb-label">¿Qué mejorar para la próxima?</label>
+          <textarea class="fb-textarea" id="fb-mejorar" placeholder="Ej: Preparar el número de WhatsApp antes de la sesión, dedicar más tiempo a la colección…"></textarea>
+        </div>
+
+        <div class="fb-block">
+          <label class="fb-label">Próximos pasos acordados con el cliente</label>
+          <textarea class="fb-textarea" id="fb-next" placeholder="Ej: Cliente va a subir base de conocimiento antes del viernes, agendar sesión de seguimiento en 2 semanas…"></textarea>
+        </div>
+
+        <div class="fb-block">
+          <label class="fb-label">Notas adicionales</label>
+          <textarea class="fb-textarea" id="fb-notas" placeholder="Cualquier otra observación…" style="min-height:80px;"></textarea>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -846,6 +917,20 @@ function updateCounter() {
   const n = done.filter(Boolean).length;
   document.getElementById('ctr').textContent = n + ' / ' + N;
   document.getElementById('prog').style.width = (n / N * 100) + '%';
+  // sync feedback summary
+  const pending = N - n;
+  document.getElementById('fb-done').textContent = n;
+  document.getElementById('fb-pending').textContent = pending;
+  document.getElementById('fb-pct').textContent = Math.round(n / N * 100) + '%';
+  // list pending step titles
+  const titles = [];
+  document.querySelectorAll('#panel-f .step').forEach((el, i) => {
+    if (!done[i]) {
+      const t = el.querySelector('.step-title');
+      if (t) titles.push('· ' + t.textContent.replace('stretch','').trim());
+    }
+  });
+  document.getElementById('fb-pending-list').textContent = titles.length ? titles.join('\n') : '—';
 }
 
 function resetAll() {
@@ -875,6 +960,7 @@ function showTab(t, btn) {
   document.getElementById('panel-f').classList.toggle('active', t === 'f');
   document.getElementById('panel-c').classList.toggle('active', t === 'c');
   document.getElementById('panel-w').classList.toggle('active', t === 'w');
+  document.getElementById('panel-fb').classList.toggle('active', t === 'fb');
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
