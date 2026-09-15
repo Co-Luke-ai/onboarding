@@ -507,20 +507,20 @@
       <!-- FACILITADOR -->
       <div id="panel-f" class="panel active">
         <div class="tip-box">
-          <strong>Objetivo de la sesión:</strong> El cliente sale con tenant activo, flujo + colección publicados, y el agente de intake corriendo en WhatsApp. System prompt, prueba final e integración son stretch si el tiempo lo permite.
+          <strong>Objetivo de la sesión:</strong> El cliente sale con tenant activo en su zona horaria, un flujo real publicado con formulario y fotos, una colección que guarda cada registro, el canal de WhatsApp o Telegram conectado y una rutina programada que le llega sola al teléfono. Intake, reportes e integraciones son stretch si el tiempo lo permite. <span style="color:var(--muted)">Actualizado 15-sep-2026 · plataforma 0.21.</span>
         </div>
 
         <div class="phase">
           <div class="phase-header">
             <span class="phase-pill p-blue">Fase 1 · Workspace</span>
-            <span class="phase-time">~32 min</span>
+            <span class="phase-time">~30 min</span>
           </div>
 
           <div class="step" onclick="tog(this,0)">
             <div class="check" id="c0"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
-              <div class="step-title">Crear el tenant</div>
-              <div class="step-note">Ir a builder.lukeworkflows.com/register. Confirmar email y entrar. Verifica que el tenant cargue correctamente antes de seguir.</div>
+              <div class="step-title">Crear el tenant y fijar zona horaria</div>
+              <div class="step-note">Ir a builder.lukeworkflows.com/register. Confirmar el correo y entrar. Antes de seguir: Configuración → pestaña de negocio → <strong>zona horaria</strong> (ej. America/Santiago) e <strong>idioma</strong>. Si queda en UTC, los triggers y los reportes salen a la hora equivocada y cuesta notarlo.</div>
             </div>
             <div class="step-time">5 min</div>
           </div>
@@ -528,8 +528,8 @@
           <div class="step" onclick="tog(this,1)">
             <div class="check" id="c1"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
-              <div class="step-title">Armar el flujo de onboarding</div>
-              <div class="step-note">Builder → Nuevo workflow. Estados básicos: Nuevo → En progreso → Cerrado. Explica el concepto de transiciones y para qué sirve cada estado.</div>
+              <div class="step-title">Armar el primer flujo</div>
+              <div class="step-note">Nuevo workflow. Los estados son las etapas reales del proceso del cliente, no un ejemplo genérico: un checklist es "apertura → cierre → completado"; una solicitud es "nueva → en progreso → cerrada". Explica qué es una transición y qué formulario la dispara.</div>
             </div>
             <div class="step-time">7 min</div>
           </div>
@@ -537,17 +537,17 @@
           <div class="step" onclick="tog(this,2)">
             <div class="check" id="c2"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
-              <div class="step-title">Iterar y mejorar el flujo</div>
-              <div class="step-note">Pregunta: "¿Qué info necesitan capturar?" Que agreguen al menos un campo de formulario. Muéstrales cómo editar un estado ya creado.</div>
+              <div class="step-title">Formulario de inicio y campos</div>
+              <div class="step-note">Pregunta: "¿Qué hay que capturar cada vez?" Que agreguen al menos tres campos: uno de texto, uno de selección y uno de <strong>foto</strong> (campo de archivo con máximo de fotos). Si un campo solo aplica a veces, muéstrales la condición: se oculta y queda registrado como "no aplicaba", distinto de no respondido.</div>
             </div>
-            <div class="step-time">4 min</div>
+            <div class="step-time">5 min</div>
           </div>
 
           <div class="step" onclick="tog(this,3)">
             <div class="check" id="c3"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
               <div class="step-title">Publicar el flujo</div>
-              <div class="step-note">Botón Publicar en el Builder. Que ellos hagan clic. Verificar que el workspace aparezca en el menú lateral.</div>
+              <div class="step-note">Botón Publicar. Que ellos hagan clic. Verificar que aparezca en la sección de publicados del menú lateral. Regla desde el día 1: <strong>no se republica mientras haya formularios entregados sin enviar</strong>; republicar cambia lo que ya está en manos de alguien.</div>
             </div>
             <div class="step-time">2 min</div>
           </div>
@@ -556,7 +556,7 @@
             <div class="check" id="c4"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
               <div class="step-title">Crear una colección</div>
-              <div class="step-note">Colecciones → Nueva. Que definan sus propios campos (ej. clientes, equipos, técnicos). Publicar y vincular la colección al flujo creado.</div>
+              <div class="step-note">Modelo de datos → Colecciones → Nueva. Que definan sus campos (ej. registros del checklist, clientes, equipos). <strong>Máximo 15 campos por colección</strong>: si necesitan más, se divide en dos. Publicar y vincular al flujo para que cada tarea completada escriba su registro. Mostrar la vista de datos.</div>
             </div>
             <div class="step-time">5 min</div>
           </div>
@@ -564,71 +564,71 @@
           <div class="step" onclick="tog(this,5)">
             <div class="check" id="c5"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
-              <div class="step-title">Crear tareas en el workspace</div>
-              <div class="step-note">2–3 tareas manuales. El objetivo es que vean el flujo vivo y noten cómo la colección se relaciona con las tareas antes de seguir construyendo.</div>
+              <div class="step-title">Tareas de prueba y entrega por link</div>
+              <div class="step-note">Crear 2–3 tareas a mano. En el formulario, activar <strong>Entrega por link</strong>: quien lo responde recibe un link y contesta desde el teléfono <strong>sin cuenta ni app</strong>. Abrir uno desde el celular del cliente y responderlo con foto. El link vence a las 24 h por defecto.</div>
             </div>
-            <div class="step-time">4 min</div>
+            <div class="step-time">5 min</div>
           </div>
 
           <div class="step" onclick="tog(this,6)">
             <div class="check" id="c6"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
-              <div class="step-title">Re-iterar el flujo y publicar v2</div>
-              <div class="step-note">Vuelven al Builder. Agregan algo que notaron que faltaba. Publican nueva versión. Refuerza el loop: build → publish → test. Este es el hábito clave.</div>
+              <div class="step-title">Iterar y publicar v2</div>
+              <div class="step-note">Vuelven al Builder, agregan lo que notaron que faltaba y publican de nuevo, con las tareas de prueba ya cerradas. Refuerza el hábito: construir → publicar → probar. Ese loop es Luke.</div>
             </div>
-            <div class="step-time">5 min</div>
+            <div class="step-time">4 min</div>
           </div>
 
           <div class="step" onclick="tog(this,7)">
             <div class="check" id="c7"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
-              <div class="step-title">Permisos y usuarios</div>
-              <div class="step-note">Configuración → Usuarios → Invitar. Asignar roles al workflow. Que inviten a al menos una persona del equipo para que lo vean activo.</div>
+              <div class="step-title">Personas, permisos y canal de cada uno</div>
+              <div class="step-note">Personas → Miembros → Invitar. Permisos → roles sobre el workflow (siempre un rol de manager). Los <strong>operadores externos</strong> participan de tareas pero no pueden iniciar un flujo desde el chat; quien inicia debe ser miembro. Cada persona vincula su WhatsApp o Telegram desde su propia cuenta: Configuración → Linked Surfaces → código → pegarlo en el bot.</div>
             </div>
-            <div class="step-time">3 min</div>
+            <div class="step-time">5 min</div>
           </div>
         </div>
 
         <div class="phase">
           <div class="phase-header">
-            <span class="phase-pill p-green">Fase 2 · Agente de intake</span>
-            <span class="phase-time">~19 min</span>
+            <span class="phase-pill p-green">Fase 2 · Canales y rutina automática</span>
+            <span class="phase-time">~22 min</span>
           </div>
 
           <div class="step" onclick="tog(this,8)">
             <div class="check" id="c8"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
-              <div class="step-title">Crear el agente + canales</div>
-              <div class="step-note">Agentes → Nuevo. Conectar canal WhatsApp (+1 754-317-3543) y agregar Telegram como sandbox. Verificar que los webhooks estén activos.</div>
+              <div class="step-title">Conectar el workflow al canal</div>
+              <div class="step-note">Canales → Luke Channel → Agregar workflow → elegir el workflow y el bot (WhatsApp o Telegram) → activar. Que el cliente vincule su propia cuenta al bot (paso anterior). Telegram sirve de sandbox sin gastar cupo de WhatsApp.</div>
             </div>
-            <div class="step-time">8 min</div>
+            <div class="step-time">5 min</div>
           </div>
 
           <div class="step" onclick="tog(this,9)">
             <div class="check" id="c9"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
-              <div class="step-title">Probar el agente intake — primera vez</div>
-              <div class="step-note">Que ellos escriban al número desde su celular. ¿Responde el agente? ¿Se crea la tarea automáticamente en el workspace? Este es el "wow moment".</div>
+              <div class="step-title">Probar desde el celular — primera vez</div>
+              <div class="step-note">Que el cliente le escriba al bot desde su teléfono y pida iniciar el flujo. ¿Se creó la tarea en el workspace? ¿Le llegó el formulario? Que lo responda ahí mismo con foto. Este es el "wow moment".</div>
             </div>
-            <div class="step-time">4 min</div>
+            <div class="step-time">5 min</div>
           </div>
 
           <div class="step" onclick="tog(this,10)">
             <div class="check" id="c10"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
-              <div class="step-title">Agregar base de conocimiento</div>
-              <div class="step-note">Subir al menos un documento (FAQ, lista de servicios, precios). Que sean ellos quienes lo suban para crear el hábito desde el día 1.</div>
+              <div class="step-title">Crear la rutina programada</div>
+              <div class="step-note">Automatizaciones → Triggers → Nuevo. Origen programado con la hora real de la rutina (ej. apertura 08:30), <strong>zona horaria explícita</strong> aunque el tenant ya la tenga, acción "crear tarea" en el workflow y <strong>asignado obligatorio</strong>: sin asignado la tarea nace muda y no llega ningún link. Revisar políticas de catch-up y concurrencia.</div>
             </div>
-            <div class="step-time">4 min</div>
+            <div class="step-time">7 min</div>
           </div>
 
           <div class="step" onclick="tog(this,11)">
             <div class="check" id="c11"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
-              <div class="step-title">Probar intake con knowledge base</div>
-              <div class="step-note">Que pregunten algo específico que esté en el documento. El agente debe responder con esa info. Comparar la respuesta vs la prueba anterior — sin KB vs con KB.</div>
+              <div class="step-title">Recibir la tarea programada y ver el registro</div>
+              <div class="step-note">Esperar la hora del trigger o forzar una corrida. Al asignado le llega el link, responde con foto, y el registro aparece en la colección con quién, a qué hora y las fotos. Cierra con: "esto es lo que corre solo desde mañana".</div>
             </div>
-            <div class="step-time">3 min</div>
+            <div class="step-time">5 min</div>
           </div>
         </div>
 
@@ -641,28 +641,28 @@
           <div class="step stretch" onclick="tog(this,12)">
             <div class="check" id="c12"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
-              <div class="step-title">Agregar system prompt <span class="sbadge">stretch</span></div>
-              <div class="step-note">Nombre, tono y reglas del agente. Ej: "Eres Carlos, asistente de [empresa]. Responde siempre en español y de forma breve."</div>
+              <div class="step-title">Agente de intake con conocimiento <span class="sbadge">stretch</span></div>
+              <div class="step-note">Canales → Intake: agente que atiende un número y crea tareas solo. Instrucciones del agente (nombre, tono, reglas) y subir un documento de conocimiento (FAQ, servicios, precios). Probar preguntando algo que esté en el documento.</div>
             </div>
-            <div class="step-time">4 min</div>
+            <div class="step-time">6 min</div>
           </div>
 
           <div class="step stretch" onclick="tog(this,13)">
             <div class="check" id="c13"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
-              <div class="step-title">Prueba final del intake <span class="sbadge">stretch</span></div>
-              <div class="step-note">Conversación completa: responde con su nombre, usa el KB y crea la tarea. Cierra con: "esto es lo que van a usar desde mañana."</div>
+              <div class="step-title">Reporte automático <span class="sbadge">stretch</span></div>
+              <div class="step-note">Reportes → nueva definición sobre el workflow publicado → generar. Sale el PDF con lo cumplido, lo pendiente y las fotos del período. Mostrar que la definición queda y se puede programar con un trigger.</div>
             </div>
-            <div class="step-time">4 min</div>
+            <div class="step-time">5 min</div>
           </div>
 
           <div class="step stretch" onclick="tog(this,14)">
             <div class="check" id="c14"><svg class="check-svg" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="step-body">
-              <div class="step-title">Crear una integración <span class="sbadge">stretch</span></div>
-              <div class="step-note">Integraciones → Nueva. Conectar con un sistema externo (CRM, calendario, hoja de cálculo). Mostrar cómo Luke puede alimentar automáticamente otras herramientas.</div>
+              <div class="step-title">Integración o agente propio por MCP <span class="sbadge">stretch</span></div>
+              <div class="step-note">Integraciones → Nueva para conectar un sistema externo. Si el cliente tiene agentes propios (Claude, Hermes, etc.), conectarlos al MCP de Luke con una clave creada por un usuario no-admin: solo ven crear, consultar, mover y anotar tareas. Entregar la guía de configuración.</div>
             </div>
-            <div class="step-time">5 min</div>
+            <div class="step-time">6 min</div>
           </div>
         </div>
       </div>
@@ -670,32 +670,32 @@
       <!-- GUÍA CLIENTE -->
       <div id="panel-c" class="panel">
         <div class="tip-box">
-          <strong>Bienvenido a Luke.</strong> En la próxima hora vas a construir tu propio agente de intake desde cero — sin necesidad de saber programar. Al final, tu número de WhatsApp va a estar respondiendo clientes y creando tareas automáticamente.
+          <strong>Bienvenido a Luke.</strong> En la próxima hora vas a construir tu primer flujo real desde cero, sin programar. Al final, una rutina de tu operación va a llegar sola al teléfono de quien la ejecuta, con foto, y va a quedar registrada con hora y responsable.
         </div>
 
         <div class="c-sep">Parte 1 · Tu workspace</div>
 
-        <div class="c-step"><div class="c-num">1</div><div><div class="c-title">Crea tu cuenta</div><div class="c-desc">Entra a builder.lukeworkflows.com/register. Confirma el correo y accede a tu tenant.</div></div></div>
-        <div class="c-step"><div class="c-num">2</div><div><div class="c-title">Construye tu primer flujo</div><div class="c-desc">Ve al Builder → Nuevo workflow. Agrega los estados de tu proceso: Nuevo → En progreso → Cerrado.</div></div></div>
-        <div class="c-step"><div class="c-num">3</div><div><div class="c-title">Agrega campos y mejora el flujo</div><div class="c-desc">¿Qué información necesitas capturar de cada servicio? Nombre del cliente, tipo de trabajo, dirección, etc.</div></div></div>
-        <div class="c-step"><div class="c-num">4</div><div><div class="c-title">Publica el flujo</div><div class="c-desc">Clic en Publicar. El workflow ya está activo en tu plataforma.</div></div></div>
-        <div class="c-step"><div class="c-num">5</div><div><div class="c-title">Crea una colección</div><div class="c-desc">Ve a Colecciones → Nueva. Define los datos que necesitas organizar: clientes, técnicos, equipos. Publícala y vincúlala al flujo.</div></div></div>
-        <div class="c-step"><div class="c-num">6</div><div><div class="c-title">Crea tareas de prueba</div><div class="c-desc">Crea 2–3 tareas manualmente en el workspace. Observa cómo el flujo y la colección trabajan juntos.</div></div></div>
-        <div class="c-step"><div class="c-num">7</div><div><div class="c-title">Mejora y publica v2</div><div class="c-desc">Vuelve al Builder, agrega algo que notaste que faltaba, y publica de nuevo. Este loop — construir, publicar, probar — es el corazón de Luke.</div></div></div>
-        <div class="c-step"><div class="c-num">8</div><div><div class="c-title">Invita a tu equipo</div><div class="c-desc">Configuración → Usuarios → Invitar. Asigna roles al workflow. Tus técnicos ya pueden operar desde aquí.</div></div></div>
+        <div class="c-step"><div class="c-num">1</div><div><div class="c-title">Crea tu cuenta y fija tu zona horaria</div><div class="c-desc">Entra a builder.lukeworkflows.com/register, confirma el correo y accede. Luego en Configuración elige tu zona horaria e idioma: así las rutinas salen a tu hora.</div></div></div>
+        <div class="c-step"><div class="c-num">2</div><div><div class="c-title">Construye tu primer flujo</div><div class="c-desc">Nuevo workflow. Los estados son las etapas de tu proceso real: por ejemplo apertura → cierre → completado.</div></div></div>
+        <div class="c-step"><div class="c-num">3</div><div><div class="c-title">Agrega el formulario y sus campos</div><div class="c-desc">¿Qué hay que capturar cada vez? Texto, selección y fotos. Si un campo solo aplica a veces, ponle una condición.</div></div></div>
+        <div class="c-step"><div class="c-num">4</div><div><div class="c-title">Publica el flujo</div><div class="c-desc">Clic en Publicar. Ya está activo. Mientras alguien tenga un formulario abierto, no vuelvas a publicar.</div></div></div>
+        <div class="c-step"><div class="c-num">5</div><div><div class="c-title">Crea una colección</div><div class="c-desc">Modelo de datos → Colecciones → Nueva. Define los datos que quieres guardar de cada tarea, hasta 15 campos. Publícala y vincúlala al flujo.</div></div></div>
+        <div class="c-step"><div class="c-num">6</div><div><div class="c-title">Crea tareas de prueba y actívales el link</div><div class="c-desc">Crea dos o tres tareas. Activa la entrega por link en el formulario y responde una desde tu celular, con foto, sin instalar nada.</div></div></div>
+        <div class="c-step"><div class="c-num">7</div><div><div class="c-title">Mejora y publica v2</div><div class="c-desc">Vuelve al Builder, agrega lo que notaste que faltaba y publica de nuevo. Construir, publicar, probar: ese es el ritmo.</div></div></div>
+        <div class="c-step"><div class="c-num">8</div><div><div class="c-title">Invita a tu equipo y vincula tu chat</div><div class="c-desc">Personas → Miembros → Invitar. Asigna roles al workflow. Cada persona vincula su WhatsApp o Telegram desde su cuenta con un código.</div></div></div>
 
-        <div class="c-sep">Parte 2 · Tu agente de WhatsApp</div>
+        <div class="c-sep">Parte 2 · Tu canal y tu rutina</div>
 
-        <div class="c-step"><div class="c-num">9</div><div><div class="c-title">Crea el agente y conecta los canales</div><div class="c-desc">Ve a Agentes → Nuevo. Conecta tu canal de WhatsApp. Agrega Telegram como canal de prueba.</div></div></div>
-        <div class="c-step"><div class="c-num">10</div><div><div class="c-title">Prueba el intake por primera vez</div><div class="c-desc">Escribe al número desde tu celular. ¿Responde el agente? ¿Se creó la tarea automáticamente en el workspace?</div></div></div>
-        <div class="c-step"><div class="c-num">11</div><div><div class="c-title">Sube tu base de conocimiento</div><div class="c-desc">Agrega un documento con tus servicios, preguntas frecuentes o precios. El agente lo va a usar para responder.</div></div></div>
-        <div class="c-step"><div class="c-num">12</div><div><div class="c-title">Prueba con el documento</div><div class="c-desc">Pregunta algo específico que esté en el documento. Compara esta respuesta con la prueba anterior — la diferencia es el knowledge base en acción.</div></div></div>
+        <div class="c-step"><div class="c-num">9</div><div><div class="c-title">Conecta el flujo a WhatsApp o Telegram</div><div class="c-desc">Canales → Luke Channel → Agregar workflow. Elige el bot y actívalo. Telegram sirve para probar sin gastar cupo de WhatsApp.</div></div></div>
+        <div class="c-step"><div class="c-num">10</div><div><div class="c-title">Pruébalo desde tu celular</div><div class="c-desc">Escríbele al bot y pide iniciar el flujo. ¿Se creó la tarea? ¿Te llegó el formulario? Respóndelo con una foto.</div></div></div>
+        <div class="c-step"><div class="c-num">11</div><div><div class="c-title">Programa la rutina</div><div class="c-desc">Automatizaciones → Triggers → Nuevo. Hora real, zona horaria, crear tarea en tu workflow y quién la recibe. Sin asignado no llega nada.</div></div></div>
+        <div class="c-step"><div class="c-num">12</div><div><div class="c-title">Recíbela y mira el registro</div><div class="c-desc">A la hora programada llega el link. Responde con foto y mira el registro en tu colección: quién, cuándo y las fotos.</div></div></div>
 
         <div class="c-sep">Parte 3 · Si el tiempo lo permite</div>
 
-        <div class="c-step"><div class="c-num amber">13</div><div><div class="c-title">Escribe el system prompt <span class="sbadge">stretch</span></div><div class="c-desc">Define el nombre, tono y reglas de tu agente. Ej: "Eres Carlos, asistente de ABC HVAC. Responde en español, de forma amable y breve."</div></div></div>
-        <div class="c-step"><div class="c-num amber">14</div><div><div class="c-title">Prueba final</div><div class="c-desc">Una conversación completa: el agente responde con su nombre, usa tu knowledge base y crea una tarea. Luke está listo para tu negocio.</div></div></div>
-        <div class="c-step"><div class="c-num amber">15</div><div><div class="c-title">Crea una integración <span class="sbadge">stretch</span></div><div class="c-desc">Conecta Luke con un sistema externo: CRM, calendario, hoja de cálculo. Así Luke alimenta automáticamente tus otras herramientas.</div></div></div>
+        <div class="c-step"><div class="c-num amber">13</div><div><div class="c-title">Agente de intake <span class="sbadge">stretch</span></div><div class="c-desc">Canales → Intake. Un agente que atiende tu número y crea tareas solo. Dale instrucciones y súbele un documento con tus servicios o preguntas frecuentes.</div></div></div>
+        <div class="c-step"><div class="c-num amber">14</div><div><div class="c-title">Reporte automático <span class="sbadge">stretch</span></div><div class="c-desc">Reportes → nueva definición sobre tu workflow → generar. Un PDF con lo cumplido, lo pendiente y las fotos.</div></div></div>
+        <div class="c-step"><div class="c-num amber">15</div><div><div class="c-title">Conecta tus sistemas o tus agentes <span class="sbadge">stretch</span></div><div class="c-desc">Integraciones → Nueva para un sistema externo. Si tienes agentes propios, conéctalos al MCP de Luke con una clave de usuario: crean y consultan tareas desde tu propio asistente.</div></div></div>
       </div>
 
       <!-- WHATSAPP SETUP -->
@@ -834,7 +834,7 @@ Authorization: Bearer {system_user_token}</div>
           <div class="wa-step-num" id="w10">2</div>
           <div class="wa-step-body">
             <div class="wa-step-title">Conectar en Luke</div>
-            <div class="wa-step-note">En Luke: Channels → Add Provider → Telegram → pegar el token entregado por BotFather → guardar. El canal queda activo inmediatamente.</div>
+            <div class="wa-step-note">En Luke: Canales → Agregar proveedor → Telegram → pegar el token entregado por BotFather → guardar. Después, Luke Channel → Agregar workflow → elegir ese bot → activar.</div>
           </div>
           <div class="wa-step-time">1 min</div>
         </div>
@@ -869,12 +869,12 @@ Authorization: Bearer {system_user_token}</div>
 
         <div class="fb-block">
           <label class="fb-label">¿Qué mejorar para la próxima?</label>
-          <div class="fb-textarea" id="fb-mejorar" contenteditable="true" data-placeholder="Ej: Preparar el número de WhatsApp antes de la sesión, dedicar más tiempo a la colección…"></div>
+          <div class="fb-textarea" id="fb-mejorar" contenteditable="true" data-placeholder="Ej: Pedir el checklist real antes de la sesión, fijar la zona horaria al crear el tenant, dedicar más tiempo a la rutina programada…"></div>
         </div>
 
         <div class="fb-block">
           <label class="fb-label">Próximos pasos acordados con el cliente</label>
-          <div class="fb-textarea" id="fb-next" contenteditable="true" data-placeholder="Ej: Cliente va a subir base de conocimiento antes del viernes, agendar sesión de seguimiento en 2 semanas…"></div>
+          <div class="fb-textarea" id="fb-next" contenteditable="true" data-placeholder="Ej: Cliente activa la rutina en su local desde mañana, primera semana con seguimiento diario, sesión de revisión en 7 días…"></div>
         </div>
 
         <div class="fb-block">
